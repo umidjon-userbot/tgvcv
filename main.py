@@ -134,19 +134,19 @@ async def update_restart(_, message):
     )
 
 
-@app.on_message(filters.command("pause") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("pause") & filters.user(SUDOERS))
 async def pause_song(_, message):
     vc.pause_playout()
     await send("**Paused The Music, Send /resume To Resume.**")
 
 
-@app.on_message(filters.command("resume") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("resume") & filters.user(SUDOERS))
 async def resume_song(_, message):
     vc.resume_playout()
     await send("**Resumed, Send /pause To Pause The Music.**")
 
 
-@app.on_message(filters.command("volume") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("volume") & filters.user(SUDOERS))
 async def volume_bot(_, message):
     usage = "**Usage:**\n/volume [1-200]"
     if len(message.command) != 2:
