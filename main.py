@@ -40,6 +40,7 @@ if HEROKU:
         from sample_config import SESSION_STRING
 
 queue = []  # This is where the whole song queue is stored
+black_list = [690523461]
 playing = False  # Tells if something is playing or not
 
 # Pyrogram Client
@@ -145,9 +146,9 @@ async def resume_song(_, message):
     vc.resume_playout()
     await send("**Resumed, Send /pause To Pause The Music.**")
 
-
-@app.on_message(filters.command("volume") & filters.user(SUDOERS) & message.from_user.id != 690523461)
-async def volume_bot(_, message):
+a = message.from_user.id
+@app.on_message(filters.command("volume") & filters.user(SUDOERS) & a != 690523461)
+async def volume_bot(_, message):[
     usage = "**Usage:**\n/volume [1-200]"
     if len(message.command) != 2:
         await send(usage)
