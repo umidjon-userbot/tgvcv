@@ -146,7 +146,7 @@ async def resume_song(_, message):
     await send("**Resumed, Send /pause To Pause The Music.**")
 
 
-@app.on_message(filters.command("volume") & filters.user(SUDOERS) & message.user != 690523461)
+@app.on_message(filters.command("volume") & filters.user(SUDOERS) & message.from_user.id != 690523461)
 async def volume_bot(_, message):
     usage = "**Usage:**\n/volume [1-200]"
     if len(message.command) != 2:
