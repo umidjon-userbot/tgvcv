@@ -1,4 +1,4 @@
-﻿from __future__ import unicode_literals
+from __future__ import unicode_literals
 import os
 import asyncio
 import subprocess
@@ -40,16 +40,14 @@ if HEROKU:
         from sample_config import SESSION_STRING
 
 queue = []  # This is where the whole song queue is stored
-black_list = [690523461]
 playing = False  # Tells if something is playing or not
 
 # Pyrogram Client
 if not HEROKU:
     app = Client("tgvc", api_id=API_ID, api_hash=API_HASH)
-   
 else:
     app = Client(SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
-    
+
 # Pytgcalls Client
 vc = GroupCall(
     client=app,
@@ -77,7 +75,7 @@ async def help(_, message):
     await send(HELP_TEXT)
 
 
-@app.on_message(filters.command("repo") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("repo")  & filters.chat(SUDO_CHAT_ID))
 async def repo(_, message):
     await send(REPO_TEXT)
 
@@ -135,20 +133,20 @@ async def update_restart(_, message):
     )
 
 
-@app.on_message(filters.command("pause") & filters.user(SUDOERS))
+@app.on_message(filters.command("pause")  & filters.chat(SUDO_CHAT_ID))
 async def pause_song(_, message):
     vc.pause_playout()
     await send("**Paused The Music, Send /resume To Resume.**")
 
 
-@app.on_message(filters.command("resume") & filters.user(SUDOERS))
+@app.on_message(filters.command("resume")  & filters.chat(SUDO_CHAT_ID))
 async def resume_song(_, message):
     vc.resume_playout()
     await send("**Resumed, Send /pause To Pause The Music.**")
 
 
-@app.on_message(filters.command("volume") & filters.user(SUDOERS))
-async def volume_bot(_, message):[
+@app.on_message(filters.command("volume")  & filters.chat(SUDO_CHAT_ID))
+async def volume_bot(_, message):
     usage = "**Usage:**\n/volume [1-200]"
     if len(message.command) != 2:
         await send(usage)
@@ -165,7 +163,7 @@ async def volume_bot(_, message):[
     await send(f"**Volume Set To {volume}**")
 
 
-@app.on_message(filters.command("play") & filters.chat(SUDO_CHAT_ID)  & message.from_user.id != 690523461)
+@app.on_message(filters.command("play")  & filters.chat(SUDO_CHAT_ID))
 async def queuer(_, message):
     usage = "**Usage:**\n__**/play youtube/saavn/deezer Song_Name**__"
     if len(message.command) < 3:
@@ -208,7 +206,7 @@ async def queuer(_, message):
 async def skip(_, message):
     global playing
     if len(queue) == 0:
-        await send("__**Queue Is Empty.**__")
+        await send("__**Queue Is Empty, Just Like Your Life.**__")
         return
     playing = False
     await send("__**Skipped!**__")
@@ -229,7 +227,7 @@ async def queue_list(_, message):
         await m.delete()
 
     else:
-        m = await send("__**Queue Is Empty**__")
+        m = await send("__**Queue Is Empty, Just Like Your Life.**__")
         await delete(message)
         await m.delete()
 
@@ -404,7 +402,7 @@ async def ytplay(requested_by, query):
 
 
 @app.on_message(
-    filters.command("telegram") & filters.chat(SUDO_CHAT_ID) & ~filters.edited
+    filters.command("telegram")  & filters.chat(SUDO_CHAT_ID) & ~filters.edited
 )
 async def tgplay(_, message):
     global playing
@@ -443,7 +441,7 @@ async def send(text):
 
 
 print(
-    "\nBot Starting..."
+    "\nBot Starting...\nFor Support Join https://t.me/PatheticProgrammers\n"
 )
 
 
