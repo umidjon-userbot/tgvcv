@@ -59,7 +59,7 @@ async def generate_cover_square(requested_by, title, artist, duration, thumbnail
                 await f.write(await resp.read())
                 await f.close()
     image1 = Image.open("./background.png")
-    image2 = Image.open(".foreground_square.png")
+    image2 = Image.open("./foreground_square.png")
     image3 = changeImageSize(600, 500, image1)
     image4 = changeImageSize(600, 500, image2)
     image5 = image3.convert("RGBA")
