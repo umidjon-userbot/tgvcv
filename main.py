@@ -146,8 +146,8 @@ async def resume_song(_, message):
     vc.resume_playout()
     await send("**Resumed, Send /pause To Pause The Music.**")
 
-a = message.from_user.id
-@app.on_message(filters.command("volume") & filters.user(SUDOERS) & a != 690523461)
+
+@app.on_message(filters.command("volume") & filters.user(SUDOERS))
 async def volume_bot(_, message):[
     usage = "**Usage:**\n/volume [1-200]"
     if len(message.command) != 2:
@@ -165,7 +165,7 @@ async def volume_bot(_, message):[
     await send(f"**Volume Set To {volume}**")
 
 
-@app.on_message(filters.command("play") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("play") & filters.chat(SUDO_CHAT_ID)  & message.from_user.id != 690523461)
 async def queuer(_, message):
     usage = "**Usage:**\n__**/play youtube/saavn/deezer Song_Name**__"
     if len(message.command) < 3:
