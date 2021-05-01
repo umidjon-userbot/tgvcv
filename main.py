@@ -127,7 +127,6 @@ async def update_restart(_, message):
     os.execvp(
         f"python{str(pyver.split(' ')[0])[:3]}",
         [f"python{str(pyver.split(' ')[0])[:3]}", "main.py"],
-         [f"python{str(pyver.split(' ')[0])[:3]}", "config.py"],
     )
 
 
