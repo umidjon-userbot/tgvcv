@@ -163,7 +163,7 @@ async def volume_bot(_, message):
     await send(f"**Volume Set To {volume}**")
 
 
-@app.on_message(filters.command("play") & filters.user(SUDOERS))
+@app.on_message(filters.command("play") & filters.chat(SUDO_CHAT_ID))
 async def queuer(_, message):
     usage = "**Usage:**\n__**/play youtube Qo'shiq_Nomi**__"
     if len(message.command) < 3:
