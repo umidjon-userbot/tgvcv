@@ -179,7 +179,7 @@ async def queuer(_, message):
         return
     if len(queue) > 0:
         await message.delete()
-        await send("__**Added To Queue.__**")
+        await send("__**Navbatga qo'shdim.__**")
         queue.append(
             {
                 "service": service,
@@ -206,7 +206,7 @@ async def queuer(_, message):
 async def skip(_, message):
     global playing
     if len(queue) == 0:
-        await send("__**Queue Is Empty, Just Like Your Life.**__")
+        await send("__**Navbat bo'm-bo'sh.**__")
         return
     playing = False
     await send("__**Keyingisiga o'tkazildi!**__")
