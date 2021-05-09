@@ -65,17 +65,17 @@ async def delete(message):
     await message.delete()
 
 
-@app.on_message(filters.command("start") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("start") & filters.user(SUDOERS))
 async def start(_, message):
     await send(START_TEXT)
 
 
-@app.on_message(filters.command("help") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("help") & filters.user(SUDOERS))
 async def help(_, message):
     await send(HELP_TEXT)
 
 
-@app.on_message(filters.command("repo") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("repo") & filters.user(SUDOERS))
 async def repo(_, message):
     await send(REPO_TEXT)
 
@@ -84,11 +84,11 @@ async def repo(_, message):
 async def joinvc(_, message):
     try:
         if vc.is_connected:
-            await send("__**Bot Is Already In Voice Chat.**__")
+            await send("__**Allaqachon ovozli chatdaman.**__")
             return
         chat_id = message.chat.id
         await vc.start(chat_id)
-        await send("__**Joined The Voice Chat.**__")
+        await send("__**Ovozli chatga qo'shildim.**__")
     except Exception as e:
         print(str(e))
         await send(str(e))
@@ -98,11 +98,11 @@ async def joinvc(_, message):
 async def joinvc(_, message):
     try:
         if vc.is_connected:
-            await send("__**Bot Is Already In Voice Chat.**__")
+            await send("__**Allaqachon ovozli chatdaman.**__")
             return
         chat_id = message.chat.id
         await vc.reconnect()
-        await send("__**Joined The Voice Chat.**__")
+        await send("__**Ovozli chatga qo'shildim.**__")
     except Exception as e:
         print(str(e))
         await send(str(e))
@@ -111,11 +111,11 @@ async def joinvc(_, message):
 @app.on_message(filters.command("leavevc") & filters.user(SUDOERS))
 async def leavevc(_, message):
     if not vc.is_connected:
-        await send("__**Already Out Of Voice Chat.**__")
+        await send("__**Ovozli chatdan allaqachon chiqib ketganman.**__")
         return
     await vc.leave_current_group_call()
     await vc.stop()
-    await send("__**Left The Voice Chat, Restarting Client....**__")
+    await send("__**Ovozli chatni tark etdim , yangilanish....**__")
     os.execvp(
         f"python{str(pyver.split(' ')[0])[:3]}",
         [f"python{str(pyver.split(' ')[0])[:3]}", "main.py"],
@@ -133,21 +133,21 @@ async def update_restart(_, message):
     )
 
 
-@app.on_message(filters.command("pause") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("pause") & filters.user(SUDOERS))
 async def pause_song(_, message):
     vc.pause_playout()
-    await send("**Paused The Music, Send /resume To Resume.**")
+    await send("**To'xtatildi, davom ettirish uchun /resume buyrug'ini bering.**")
 
 
 @app.on_message(filters.command("resume") & filters.chat(SUDO_CHAT_ID))
 async def resume_song(_, message):
     vc.resume_playout()
-    await send("**Resumed, Send /pause To Pause The Music.**")
+    await send("**Davom etmoqda, to'xtatish uchun /pause buyrug'ini bering.**")
 
 
-@app.on_message(filters.command("volume") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("volume") & filters.user(SUDOERS))
 async def volume_bot(_, message):
-    usage = "**Usage:**\n/volume [1-200]"
+    usage = "**Ishlatish uchun:**\n/volume [1-200] yozing"
     if len(message.command) != 2:
         await send(usage)
         return
@@ -163,9 +163,9 @@ async def volume_bot(_, message):
     await send(f"**Volume Set To {volume}**")
 
 
-@app.on_message(filters.command("play") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("play") & filters.user(SUDOERS))
 async def queuer(_, message):
-    usage = "**Usage:**\n__**/play youtube/saavn/deezer Song_Name**__"
+    usage = "**Usage:**\n__**/play youtube Qo'shiq_Nomi**__"
     if len(message.command) < 3:
         await send(usage)
         return
@@ -209,7 +209,7 @@ async def skip(_, message):
         await send("__**Queue Is Empty, Just Like Your Life.**__")
         return
     playing = False
-    await send("__**Skipped!**__")
+    await send("__**Keyingisiga o'tkazildi!**__")
     await play()
 
 
@@ -219,15 +219,15 @@ async def queue_list(_, message):
         i = 1
         text = ""
         for song in queue:
-            text += f"**{i}. Platform:** __**{song['service']}**__ " \
-                     + f"| **Song:** __**{song['song']}**__\n"
+            text += f"**{i}. Platforma:** __**{song['service']}**__ " \
+                     + f"| **Musiqa:** __**{song['song']}**__\n"
             i += 1
         m = await send(text)
         await delete(message)
         await m.delete()
 
     else:
-        m = await send("__**Queue Is Empty, Just Like Your Life.**__")
+        m = await send("__**Navbatda musiqa yo'q.**__")
         await delete(message)
         await m.delete()
 
@@ -402,7 +402,7 @@ async def ytplay(requested_by, query):
 
 
 @app.on_message(
-    filters.command("telegram") & filters.chat(SUDO_CHAT_ID) & ~filters.edited
+    filters.command("telegram") & filters.user(SUDOERS) & ~filters.edited
 )
 async def tgplay(_, message):
     global playing
