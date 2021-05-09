@@ -72,14 +72,14 @@ async def generate_cover_square(requested_by, title, artist, duration, thumbnail
     draw.text((150, 405), f"Artist: {artist}", (255, 255, 255), font=font)
     draw.text(
         (150, 430),
-        f"Duration: {duration} Seconds",
+        f"Davomiyligi: {duration} Seconds",
         (255, 255, 255),
         font=font,
     )
 
     draw.text(
         (150, 455),
-        f"Played By: {requested_by}",
+        f"{requested_by} tomonidan ijro etildi",
         (255, 255, 255),
         font=font,
     )
