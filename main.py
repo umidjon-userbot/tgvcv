@@ -243,7 +243,7 @@ async def play():
             service = queue[0]["service"]
             song = queue[0]["song"]
             requested_by = queue[0]["requested_by"]
-            app.update_profile(bio=song)
+          
 
             if service == "youtube":
                 playing = True
@@ -358,6 +358,7 @@ async def jiosaavn(requested_by, query):
 
 async def ytplay(requested_by, query):
     global playing
+   
     ydl_opts = {"format": "bestaudio"}
     m = await send(f"__**Searching for {query} on YouTube.**__")
     try:
@@ -367,6 +368,7 @@ async def ytplay(requested_by, query):
         thumbnail = results[0].thumbnails[0]
         duration = results[0].duration
         views = results[0].views
+        app.update_profile(first_name="PyrogramVoiceChatBot",bio=title) 
         if time_to_seconds(duration) >= 1800:
             await m.edit("__**Bruh! Only songs within 30 Mins.**__")
             playing = False
