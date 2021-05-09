@@ -360,7 +360,7 @@ async def ytplay(requested_by, query):
     global playing
    
     ydl_opts = {"format": "bestaudio"}
-    m = await send(f"__**Searching for {query} on YouTube.**__")
+    m = await send(f"__**{query} YouTubedan izlanmoqda.**__")
     try:
         results = await arq.youtube(query)
         link = f"https://youtube.com{results[0].url_suffix}"
@@ -368,29 +368,29 @@ async def ytplay(requested_by, query):
         thumbnail = results[0].thumbnails[0]
         duration = results[0].duration
         views = results[0].views
-        app.update_profile(first_name="PyrogramVoiceChatBot",bio=title) 
+        app.update_profile(first_name="PyrogramVoiceChatBot",bio = f"{title} ijro etilmoqda") 
         if time_to_seconds(duration) >= 1800:
-            await m.edit("__**Bruh! Only songs within 30 Mins.**__")
+            await m.edit("__**Yo'q, faqat 30 daqiqadan oshmagan musiqalar mumkin.**__")
             playing = False
             return
     except Exception as e:
-        await m.edit("__**Found No Song Matching Your Query.**__")
+        await m.edit("__**Siz izlagan musiqa topilmadi.**__")
         playing = False
         print(str(e))
         return
-    await m.edit("__**Processing Thumbnail.**__")
+    await m.edit("__**1 soniya.**__")
     await generate_cover(requested_by, title, views, duration, thumbnail)
-    await m.edit("__**Downloading Music.**__")
+    await m.edit("__**yuklanmoqda ....**__")
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(link, download=False)
         audio_file = ydl.prepare_filename(info_dict)
         ydl.process_info(info_dict)
-    await m.edit("__**Transcoding.**__")
+    await m.edit("__**1 soniya.**__")
     os.rename(audio_file, "audio.webm")
     transcode("audio.webm")
     await m.delete()
-    caption = f"🏷 **Name:** [{title[:35]}]({link})\n⏳ **Duration:** {duration}\n" \
-               + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** YouTube"
+    caption = f"🏷 **Nomi:** [{title[:35]}]({link})\n⏳ **Davomiyligi:** {duration}\n" \
+               + f"🎧 {requested_by} **tomonidan ijro etildi**\n📡 **Platforma:** YouTube"
     m = await app.send_photo(
         chat_id=SUDO_CHAT_ID,
         caption=caption,
