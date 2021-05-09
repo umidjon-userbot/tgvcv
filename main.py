@@ -243,6 +243,8 @@ async def play():
             service = queue[0]["service"]
             song = queue[0]["song"]
             requested_by = queue[0]["requested_by"]
+            app.update_profile(bio=song)
+
             if service == "youtube":
                 playing = True
                 del queue[0]
