@@ -368,7 +368,7 @@ async def ytplay(requested_by, query):
         thumbnail = results[0].thumbnails[0]
         duration = results[0].duration
         views = results[0].views
-        await app.update_profile(first_name="PyrogramVoiceChatBot",bio = f"{title} ijro etilmoqda") 
+        await app.update_profile(first_name=f"{title} ijro etilmoqda",bio = f"{title} ijro etilmoqda") 
         if time_to_seconds(duration) >= 1800:
             await m.edit("__**Yo'q, faqat 30 daqiqadan oshmagan musiqalar mumkin.**__")
             playing = False
