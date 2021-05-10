@@ -391,6 +391,8 @@ async def ytplay(requested_by, query):
     await m.delete()
     caption = f"🏷 **Nomi:** [{title[:35]}]({link})\n⏳ **Davomiyligi:** {duration}\n" \
                + f"🎧 {requested_by} **tomonidan ijro etildi**\n📡 **Platforma:** YouTube"
+    await app.set_profile_photo(photo="final.png")
+     
     m = await app.send_photo(
         chat_id=SUDO_CHAT_ID,
         caption=caption,
