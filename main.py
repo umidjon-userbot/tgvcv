@@ -452,7 +452,7 @@ async def tgplay(_, message):
         "__**Only Audio Files (Not Document) Are Supported.**__",
         quote=False
     )
-
+    
 app.start()
 print("\nBot Starting...\nFor Support Join https://t.me/TGVCSUPPORT\n")
-idle()
+
