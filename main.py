@@ -413,22 +413,34 @@ async def ytplay(requested_by, query):
 async def tgplay(_, message):
     global playing
     if len(queue) != 0:
-        await send("__**You Can Only Play Telegram Files After The Queue Gets "
-                   + "Finished.**__",chat_id)
+        await message.reply_text(
+            "__**You Can Only Play Telegram Files After The Queue Gets "
+            + "Finished.**__",
+            quote=False
+        )
         return
     if not message.reply_to_message:
-        await send("__**Reply to an audio.**__",chat_id)
+        await message.reply_text("__**Reply to an audio.**__", quote=False)
         return
     if message.reply_to_message.audio:
         if int(message.reply_to_message.audio.file_size) >= 104857600:
-            await send("__**Bruh! Only songs within 100 MB.**__",chat_id)
+            await message.reply_text(
+                "__**Bruh! Only songs within 100 MB.**__",
+                quote=False
+            )
             playing = False
             return
         duration = message.reply_to_message.audio.duration
         if not duration:
-            await send("__**Only Songs With Duration Are Supported.**__",chat_id)
+            await message.reply_text(
+                "__**Only Songs With Duration Are Supported.**__",
+                quote=False
+            )
             return
-        m = await send("__**Downloading.**__",chat_id)
+        m = await message.reply_text(
+            "__**Downloading.**__",
+            quote=False
+        )
         song = await message.reply_to_message.download()
         await m.edit("__**Transcoding.**__")
         transcode(song)
@@ -436,19 +448,11 @@ async def tgplay(_, message):
         await asyncio.sleep(duration)
         playing = False
         return
-    await send("__**Only Audio Files (Not Document) Are Supported.**__",chat_id)
-
-
-async def send(text, chatid):
-    m = await app.send_message(
-       chatid, text=text, disable_web_page_preview=True
+    await message.reply_text(
+        "__**Only Audio Files (Not Document) Are Supported.**__",
+        quote=False
     )
-    return m
 
-
-print(
-    "\nBot Starting...\n WORKING>>>\n"
-)
-
-
-app.run()
+app.start()
+print("\nBot Starting...\nFor Support Join https://t.me/TGVCSUPPORT\n")
+idle()
