@@ -172,13 +172,16 @@ async def queuer(_, message):
         return
     text = message.text.split(None, 2)[1:]
     service = text[0].lower()
-    song_name = text[1]
+    songname = text[1]
+    song_name = songname.lower()
     requested_by = message.from_user.first_name
     services = ["youtube", "deezer", "saavn"]
     if service not in services:
         await send(usage)
         return
-    if len(queue) > 0:
+    matchers = ['yamete','kudasai','sex']
+    matching = [s for s in my_list if any(xs in s for xs in matchers)]
+    if len(queue) > 0 && matching == 0 :
         await message.delete()
         await send("__**Added To Queue.__**")
         queue.append(
@@ -315,7 +318,7 @@ async def deezer(requested_by, query):
     photos = await app.get_profile_photos("me")
 
 
-    await app.delete_profile_photos(photos[0].file_id)    
+    await app.delete_profile_photos([p.file_id for p in photos[1:]])  
          
     await m.delete()
     playing = False
@@ -361,7 +364,7 @@ async def jiosaavn(requested_by, query):
     photos = await app.get_profile_photos("me")
 
 
-    await app.delete_profile_photos(photos[0].file_id) 
+    await app.delete_profile_photos([p.file_id for p in photos[1:]])
     await m.delete()
     playing = False
 
@@ -414,7 +417,7 @@ async def ytplay(requested_by, query):
     photos = await app.get_profile_photos("me")
 
 
-    await app.delete_profile_photos(photos[0].file_id) 
+    await app.delete_profile_photos([p.file_id for p in photos[1:]])
     playing = False
     await m.delete()
 
