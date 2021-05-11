@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import os
 import re
+from wordfilter import Wordfilter
 import asyncio
 import subprocess
 import youtube_dl
@@ -174,7 +175,8 @@ async def queuer(_, message):
     text = message.text.split(None, 2)[1:]
     service = text[0].lower()
     song_name = text[1]
-    incoming = song_name.lower()     
+    income = song_name.lower()   
+    incoming = income.split()
     requested_by = message.from_user.first_name
     services = ["youtube", "deezer", "saavn"]
     if service not in services:
@@ -183,11 +185,9 @@ async def queuer(_, message):
      
          
          
-     
-    mylist = ["yamete", "kudasai", "sex", "arigato", "hentai", "chinese"]
-    r = re.compile(".*/incoming")
-    newlist = list(filter(r.match, mylist)) # Read Note
-    if newlist == 0:
+    wordfilter = Wordfilter()
+    wordfilter.addWords(['yamete', 'kudasai', 'sex', 'arigato', 'hentai', 'sexy'])     
+    if wordfilter.blacklisted(income):   
        a = True
     else:
        a = False
@@ -195,7 +195,7 @@ async def queuer(_, message):
          
          
          
-    if len(queue) > 0 & a == True:
+    if len(queue) > 0 & a == False:
         await message.delete()
         await send("__**Added to queue.__**")
         queue.append(
@@ -257,7 +257,7 @@ async def play():
     global queue, playing
     while not playing:
         await asyncio.sleep(2)
-        if len(queue) != 0:
+        if len(queue) != 0 & a == False:
             service = queue[0]["service"]
             song = queue[0]["song"]
             requested_by = queue[0]["requested_by"]
