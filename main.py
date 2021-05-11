@@ -187,7 +187,7 @@ async def queuer(_, message):
     mylist = ["yamete", "kudasai", "sex", "arigato", "hentai", "chinese"]
     r = re.compile(".*/incoming")
     newlist = list(filter(r.match, mylist)) # Read Note
-    if newlist != 0:
+    if newlist == 0:
        a = True
     else:
        a = False
