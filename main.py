@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 import os
+import re
 import asyncio
 import subprocess
 import youtube_dl
@@ -166,24 +167,37 @@ async def volume_bot(_, message):
 
 @app.on_message(filters.command("play") & filters.chat(SUDO_CHAT_ID))
 async def queuer(_, message):
-    usage = "**Usage:**\n__**/play youtube Song_Name**__"
+    usage = "**Usage:**\n__**/play youtube Song_name**__"
     if len(message.command) < 3:
         await send(usage)
         return
     text = message.text.split(None, 2)[1:]
     service = text[0].lower()
-    songname = text[1]
-    song_name = songname.lower()
+    song_name = text[1]
+    incoming = song_name.lower()     
     requested_by = message.from_user.first_name
     services = ["youtube", "deezer", "saavn"]
     if service not in services:
         await send(usage)
         return
-    matchers = ['yamete','kudasai','sex']
-    matching = [s for s in matchers if any(xs in s for xs in matchers)]
-    if len(queue) > 0 & matching == 0 :
+     
+         
+         
+     
+     mylist = ["yamete", "kudasai", "sex", "arigato", "hentai", "chinese"]
+     r = re.compile(".*/incoming")
+     newlist = list(filter(r.match, mylist)) # Read Note
+     if newlist != 0:
+        a = True
+     else:
+        a = False
+        await send("__**No!__**")
+         
+         
+         
+    if len(queue) > 0 & a == True:
         await message.delete()
-        await send("__**Added To Queue.__**")
+        await send("__**Added to queue.__**")
         queue.append(
             {
                 "service": service,
