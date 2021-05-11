@@ -252,7 +252,13 @@ async def queue_list(_, message):
 
 # Queue handler
 
-
+wordfilter = Wordfilter()
+wordfilter.addWords(['yamete', 'kudasai', 'sex', 'arigato', 'hentai', 'sexy'])     
+if wordfilter.blacklisted(income):   
+   a = True
+else:
+   a = False
+   await send("__**No!__**")
 async def play():
     global queue, playing
     while not playing:
