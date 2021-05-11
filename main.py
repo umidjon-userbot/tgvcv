@@ -413,34 +413,22 @@ async def ytplay(requested_by, query):
 async def tgplay(_, message):
     global playing
     if len(queue) != 0:
-        await message.reply_text(
-            "__**You Can Only Play Telegram Files After The Queue Gets "
-            + "Finished.**__",
-            quote=False
-        )
+        await send("__**You Can Only Play Telegram Files After The Queue Gets "
+                   + "Finished.**__")
         return
     if not message.reply_to_message:
-        await message.reply_text("__**Reply to an audio.**__", quote=False)
+        await send("__**Reply to an audio.**__")
         return
     if message.reply_to_message.audio:
         if int(message.reply_to_message.audio.file_size) >= 104857600:
-            await message.reply_text(
-                "__**Bruh! Only songs within 100 MB.**__",
-                quote=False
-            )
+            await send("__**Bruh! Only songs within 100 MB.**__")
             playing = False
             return
         duration = message.reply_to_message.audio.duration
         if not duration:
-            await message.reply_text(
-                "__**Only Songs With Duration Are Supported.**__",
-                quote=False
-            )
+            await send("__**Only Songs With Duration Are Supported.**__")
             return
-        m = await message.reply_text(
-            "__**Downloading.**__",
-            quote=False
-        )
+        m = await send("__**Downloading.**__")
         song = await message.reply_to_message.download()
         await m.edit("__**Transcoding.**__")
         transcode(song)
@@ -448,11 +436,21 @@ async def tgplay(_, message):
         await asyncio.sleep(duration)
         playing = False
         return
-    await message.reply_text(
-        "__**Only Audio Files (Not Document) Are Supported.**__",
-        quote=False
+    await send("__**Only Audio Files (Not Document) Are Supported.**__")
+
+
+async def send(text):
+    m = await app.send_message(
+        SUDO_CHAT_ID, text=text, disable_web_page_preview=True
     )
-    
-app.start()
-print("\nBot Starting...\nFor Support Join https://t.me/TGVCSUPPORT\n")
+    return m
+
+
+print(
+    "\nBot Starting..."
+)
+
+
+app.run()
+
 
