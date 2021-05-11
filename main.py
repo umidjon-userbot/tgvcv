@@ -134,19 +134,19 @@ async def update_restart(_, message):
     )
 
 
-@app.on_message(filters.command("pause") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("pause") & filters.user(SUDOERS))
 async def pause_song(_, message):
     vc.pause_playout()
     await send("**Paused The Music, Send /resume To Resume.**")
 
 
-@app.on_message(filters.command("resume") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("resume") & filters.user(SUDOERS))
 async def resume_song(_, message):
     vc.resume_playout()
     await send("**Resumed, Send /pause To Pause The Music.**")
 
 
-@app.on_message(filters.command("volume") & filters.chat(SUDO_CHAT_ID))
+@app.on_message(filters.command("volume") & filters.user(SUDOERS))
 async def volume_bot(_, message):
     usage = "**Usage:**\n/volume [1-200]"
     if len(message.command) != 2:
@@ -166,7 +166,7 @@ async def volume_bot(_, message):
 
 @app.on_message(filters.command("play") & filters.chat(SUDO_CHAT_ID))
 async def queuer(_, message):
-    usage = "**Usage:**\n__**/play youtube/saavn/deezer Song_Name**__"
+    usage = "**Usage:**\n__**/play youtube Song_Name**__"
     if len(message.command) < 3:
         await send(usage)
         return
@@ -300,8 +300,10 @@ async def deezer(requested_by, query):
     await m.edit("__**Downloading And Transcoding.**__")
     await download_and_transcode_song(url)
     await m.delete()
+    await app.update_profile(first_name=f"🔉{title} ",bio = f"__{title}__ ijro etilmoqda") 
     caption = f"🏷 **Name:** [{title[:35]}]({url})\n⏳ **Duration:** {duration}\n" \
                + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** Deezer"
+    await app.set_profile_photo(photo="final.png")
     m = await app.send_photo(
         chat_id=SUDO_CHAT_ID,
         photo="final.png",
@@ -309,6 +311,12 @@ async def deezer(requested_by, query):
     )
     os.remove("final.png")
     await asyncio.sleep(int(songs[0]["duration"]))
+    
+    photos = await app.get_profile_photos("me")
+
+
+    await app.delete_profile_photos(photos[0].file_id)    
+         
     await m.delete()
     playing = False
 
@@ -339,8 +347,10 @@ async def jiosaavn(requested_by, query):
     await m.edit("__**Downloading And Transcoding.**__")
     await download_and_transcode_song(slink)
     await m.delete()
+    await app.update_profile(first_name=f"🔉{sname} ",bio = f"__{sname}__ ijro etilmoqda") 
     caption = f"🏷 **Name:** {sname[:35]}\n⏳ **Duration:** {sduration_converted}\n" \
                + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** JioSaavn"
+    await app.set_profile_photo(photo="final.png")
     m = await app.send_photo(
         chat_id=SUDO_CHAT_ID,
         caption=caption,
@@ -348,6 +358,10 @@ async def jiosaavn(requested_by, query):
     )
     os.remove("final.png")
     await asyncio.sleep(int(sduration))
+    photos = await app.get_profile_photos("me")
+
+
+    await app.delete_profile_photos(photos[0].file_id) 
     await m.delete()
     playing = False
 
@@ -366,6 +380,7 @@ async def ytplay(requested_by, query):
         thumbnail = results[0].thumbnails[0]
         duration = results[0].duration
         views = results[0].views
+        await app.update_profile(first_name=f"🔉{title} ",bio = f"__{title}__ ijro etilmoqda") 
         if time_to_seconds(duration) >= 1800:
             await m.edit("__**Bruh! Only songs within 30 Mins.**__")
             playing = False
@@ -388,6 +403,7 @@ async def ytplay(requested_by, query):
     await m.delete()
     caption = f"🏷 **Name:** [{title[:35]}]({link})\n⏳ **Duration:** {duration}\n" \
                + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** YouTube"
+    await app.set_profile_photo(photo="final.png")
     m = await app.send_photo(
         chat_id=SUDO_CHAT_ID,
         caption=caption,
@@ -395,6 +411,10 @@ async def ytplay(requested_by, query):
     )
     os.remove("final.png")
     await asyncio.sleep(int(time_to_seconds(duration)))
+    photos = await app.get_profile_photos("me")
+
+
+    await app.delete_profile_photos(photos[0].file_id) 
     playing = False
     await m.delete()
 
@@ -403,7 +423,7 @@ async def ytplay(requested_by, query):
 
 
 @app.on_message(
-    filters.command("telegram") & filters.chat(SUDO_CHAT_ID) & ~filters.edited
+    filters.command("telegram") & filters.user(SUDOERS) & ~filters.edited
 )
 async def tgplay(_, message):
     global playing
