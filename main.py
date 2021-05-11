@@ -180,7 +180,7 @@ async def queuer(_, message):
         await send(usage)
         return
     matchers = ['yamete','kudasai','sex']
-    matching = [s for s in my_list if any(xs in s for xs in matchers)]
+    matching = [s for s in matchers if any(xs in s for xs in matchers)]
     if len(queue) > 0 & matching == 0 :
         await message.delete()
         await send("__**Added To Queue.__**")
