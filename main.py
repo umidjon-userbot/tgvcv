@@ -439,9 +439,9 @@ async def tgplay(_, message):
     await send("__**Only Audio Files (Not Document) Are Supported.**__")
 
 
-async def send(text):
+async def send(text, chat_id):
     m = await app.send_message(
-        SUDO_CHAT_ID, text=text, disable_web_page_preview=True
+       chat_id, text=text, disable_web_page_preview=True
     )
     return m
 
