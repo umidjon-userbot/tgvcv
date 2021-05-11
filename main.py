@@ -414,21 +414,21 @@ async def tgplay(_, message):
     global playing
     if len(queue) != 0:
         await send("__**You Can Only Play Telegram Files After The Queue Gets "
-                   + "Finished.**__")
+                   + "Finished.**__",chat_id)
         return
     if not message.reply_to_message:
-        await send("__**Reply to an audio.**__")
+        await send("__**Reply to an audio.**__",chat_id)
         return
     if message.reply_to_message.audio:
         if int(message.reply_to_message.audio.file_size) >= 104857600:
-            await send("__**Bruh! Only songs within 100 MB.**__")
+            await send("__**Bruh! Only songs within 100 MB.**__",chat_id)
             playing = False
             return
         duration = message.reply_to_message.audio.duration
         if not duration:
-            await send("__**Only Songs With Duration Are Supported.**__")
+            await send("__**Only Songs With Duration Are Supported.**__",chat_id)
             return
-        m = await send("__**Downloading.**__")
+        m = await send("__**Downloading.**__",chat_id)
         song = await message.reply_to_message.download()
         await m.edit("__**Transcoding.**__")
         transcode(song)
@@ -436,18 +436,18 @@ async def tgplay(_, message):
         await asyncio.sleep(duration)
         playing = False
         return
-    await send("__**Only Audio Files (Not Document) Are Supported.**__")
+    await send("__**Only Audio Files (Not Document) Are Supported.**__",chat_id)
 
 
-async def send(text, chat_id):
+async def send(text, chatid):
     m = await app.send_message(
-       chat_id, text=text, disable_web_page_preview=True
+       chatid, text=text, disable_web_page_preview=True
     )
     return m
 
 
 print(
-    "\nBot Starting...\nFor Support Join https://t.me/PatheticProgrammers\n"
+    "\nBot Starting...\n WORKING>>>\n"
 )
 
 
