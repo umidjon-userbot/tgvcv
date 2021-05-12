@@ -467,6 +467,7 @@ async def tgplay(_, message):
             await send("__**Only Songs With Duration Are Supported.**__")
             return
         m = await send("__**Downloading.**__")
+        song_name = message.reply_to_message.audio.title 
         song = await message.reply_to_message.download()
         await m.edit("__**Transcoding.**__")
         await app.update_profile(first_name=f"🔉{song_name} ",bio = f"__{song_name}__ ijro etilmoqda")
