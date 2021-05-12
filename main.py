@@ -175,27 +175,22 @@ async def queuer(_, message):
     text = message.text.split(None, 2)[1:]
     service = text[0].lower()
     song_name = text[1]
-    income = song_name.lower()   
-    incoming = income.split()
+   
+    
     requested_by = message.from_user.first_name
     services = ["youtube", "deezer", "saavn"]
     if service not in services:
         await send(usage)
         return
-     
+
+        
          
          
-    wordfilter = Wordfilter()
-    wordfilter.addWords(['yamete', 'kudasai', 'sex', 'arigato', 'hentai', 'sexy'])     
-    if wordfilter.blacklisted(income):   
-       a = True
-    else:
-       a = False
-       await send("__**No!__**")
+    
          
          
          
-    if len(queue) > 0 & a == False:
+    if len(queue) > 0 :
         await message.delete()
         await send("__**Added to queue.__**")
         queue.append(
@@ -252,12 +247,11 @@ async def queue_list(_, message):
 
 # Queue handler
 
-
 async def play():
     global queue, playing
     while not playing:
         await asyncio.sleep(2)
-        if len(queue) != 0 & a == False:
+        if len(queue) != 0 :
             service = queue[0]["service"]
             song = queue[0]["song"]
             requested_by = queue[0]["requested_by"]
@@ -317,7 +311,7 @@ async def deezer(requested_by, query):
     await m.edit("__**Downloading And Transcoding.**__")
     await download_and_transcode_song(url)
     await m.delete()
-    await app.update_profile(first_name=f"🔉{title[:45]} ",bio = f"__{title[:45]}__ ijro etilmoqda") 
+    await app.update_profile(first_name=f"🔉{title} ",bio = f"__{title}__ ijro etilmoqda") 
     caption = f"🏷 **Name:** [{title[:35]}]({url})\n⏳ **Duration:** {duration}\n" \
                + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** Deezer"
     await app.set_profile_photo(photo="final.png")
@@ -364,7 +358,7 @@ async def jiosaavn(requested_by, query):
     await m.edit("__**Downloading And Transcoding.**__")
     await download_and_transcode_song(slink)
     await m.delete()
-    await app.update_profile(first_name=f"🔉{sname[:45]} ",bio = f"__{sname[:45]}__ ijro etilmoqda") 
+    await app.update_profile(first_name=f"🔉{sname} ",bio = f"__{sname}__ ijro etilmoqda") 
     caption = f"🏷 **Name:** {sname[:35]}\n⏳ **Duration:** {sduration_converted}\n" \
                + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** JioSaavn"
     await app.set_profile_photo(photo="final.png")
@@ -446,8 +440,6 @@ async def ytplay(requested_by, query):
     await app.delete_profile_photos([p.file_id for p in photos[1:]])
     playing = False
     await m.delete()
-
-
 
 
 # Telegram Audio------------------------------------
