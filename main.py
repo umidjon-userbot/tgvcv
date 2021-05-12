@@ -469,8 +469,10 @@ async def tgplay(_, message):
         m = await send("__**Downloading.**__")
         song = await message.reply_to_message.download()
         await m.edit("__**Transcoding.**__")
+        await app.update_profile(first_name=f"🔉{song_name} ",bio = f"__{song_name}__ ijro etilmoqda")
+        
         transcode(song)
-        await m.edit(f"**Playing** __**{message.reply_to_message.link}.**__")
+        await m.edit(f"**Playing** {song_name} __**{message.reply_to_message.link}.**__")
         await asyncio.sleep(duration)
         playing = False
         return
