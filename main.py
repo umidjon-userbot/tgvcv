@@ -252,13 +252,7 @@ async def queue_list(_, message):
 
 # Queue handler
 
-wordfilter = Wordfilter()
-wordfilter.addWords(['yamete', 'kudasai', 'sex', 'arigato', 'hentai', 'sexy'])     
-if wordfilter.blacklisted(income):   
-   a = True
-else:
-   a = False
-   await send("__**No!__**")
+
 async def play():
     global queue, playing
     while not playing:
@@ -323,7 +317,7 @@ async def deezer(requested_by, query):
     await m.edit("__**Downloading And Transcoding.**__")
     await download_and_transcode_song(url)
     await m.delete()
-    await app.update_profile(first_name=f"🔉{title} ",bio = f"__{title}__ ijro etilmoqda") 
+    await app.update_profile(first_name=f"🔉{title[:45]} ",bio = f"__{title[:45]}__ ijro etilmoqda") 
     caption = f"🏷 **Name:** [{title[:35]}]({url})\n⏳ **Duration:** {duration}\n" \
                + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** Deezer"
     await app.set_profile_photo(photo="final.png")
@@ -370,7 +364,7 @@ async def jiosaavn(requested_by, query):
     await m.edit("__**Downloading And Transcoding.**__")
     await download_and_transcode_song(slink)
     await m.delete()
-    await app.update_profile(first_name=f"🔉{sname} ",bio = f"__{sname}__ ijro etilmoqda") 
+    await app.update_profile(first_name=f"🔉{sname[:45]} ",bio = f"__{sname[:45]}__ ijro etilmoqda") 
     caption = f"🏷 **Name:** {sname[:35]}\n⏳ **Duration:** {sduration_converted}\n" \
                + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** JioSaavn"
     await app.set_profile_photo(photo="final.png")
@@ -400,6 +394,18 @@ async def ytplay(requested_by, query):
         results = await arq.youtube(query)
         link = f"https://youtube.com{results[0].url_suffix}"
         title = results[0].title
+        songname = title.lower()
+        wordfilter = Wordfilter()
+        wordfilter.addWords(['yamete', 'kudasai', 'sex', 'arigato', 'hentai', 'sexy'])     
+        if wordfilter.blacklisted(songname): 
+           await m.edit("__**Not allowed song !!!**__")  
+           playing = False
+           return
+        
+           
+
+
+
         thumbnail = results[0].thumbnails[0]
         duration = results[0].duration
         views = results[0].views
@@ -440,6 +446,8 @@ async def ytplay(requested_by, query):
     await app.delete_profile_photos([p.file_id for p in photos[1:]])
     playing = False
     await m.delete()
+
+
 
 
 # Telegram Audio------------------------------------
