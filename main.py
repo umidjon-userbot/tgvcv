@@ -499,7 +499,7 @@ async def send(text):
 
 
 @app.on_message(filters.command("d") & ~filters.edited)
-@capture_err
+
 async def delete(_, message):
     if not message.reply_to_message:
         await message.reply_text("Reply To A Message To Delete It")
