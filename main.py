@@ -498,7 +498,7 @@ async def send(text):
      # Delete messages
 
 
-@app.on_message(filters.command("d") & ~filters.edited)
+@app.on_message(filters.command("d") & filters.user(SUDOERS))
 
 async def delete(_, message):
     if not message.reply_to_message:
@@ -507,12 +507,12 @@ async def delete(_, message):
     try:
         from_user_id = message.from_user.id
         chat_id = message.chat.id
-        permissions = await member_permissions(chat_id, from_user_id)
-        if "can_delete_messages" in permissions or from_user_id in SUDOERS:
-            await message.reply_to_message.delete()
-            await message.delete()
-        else:
-            await message.reply_text("You Don't Have Enough Permissions,"
+        #permissions = await member_permissions(chat_id, from_user_id)
+        #if "can_delete_messages" in permissions or from_user_id in SUDOERS:
+        await message.reply_to_message.delete()
+        await message.delete()
+        #else:
+            #await message.reply_text("You Don't Have Enough Permissions,"
                                      + " Consider Deleting Yourself!")
     except Exception as e:
         await message.reply_text(str(e))
