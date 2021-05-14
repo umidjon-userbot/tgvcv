@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import os
 import re
+from langdetect import detect_langs
 from wordfilter import Wordfilter
 import asyncio
 import subprocess
@@ -18,7 +19,7 @@ from functions import (
     generate_cover,
     generate_cover_square,
 )
-
+DetectorFactory.seed = 0
 # TODO Make it look less messed up
 is_config = os.path.exists("config.py")
 
@@ -389,13 +390,17 @@ async def ytplay(requested_by, query):
         link = f"https://youtube.com{results[0].url_suffix}"
         title = results[0].title
         songname = title.lower()
+        detecting = detect(songname)
         wordfilter = Wordfilter()
         wordfilter.addWords(['yamete', 'kudasai', 'sex', 'arigato', 'hentai', 'sexy'])     
         if wordfilter.blacklisted(songname): 
            await m.edit("__**Not allowed song !!!**__")  
            playing = False
            return
-        
+        if detecting == "ko":
+           await m.edit("__**Not allowed Language !!!**__")  
+           playing = False
+           return
            
 
 
