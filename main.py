@@ -513,7 +513,7 @@ async def delete(_, message):
         await message.delete()
         #else:
             #await message.reply_text("You Don't Have Enough Permissions,"
-                                     + " Consider Deleting Yourself!")
+                                     #+ " Consider Deleting Yourself!")
     except Exception as e:
         await message.reply_text(str(e))
          
