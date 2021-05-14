@@ -532,6 +532,55 @@ async def cat(_, message):
         data = json.loads(url.read().decode())
     cat_url = (data[0]['url'])
     await message.reply_photo(cat_url)
+         
+         
+         
+         
+         #---------------#
+ @app.on_message(filters.command("block") & filters.user(SUDOERS))
+
+async def delete(_, message):
+    if not message.reply_to_message:
+        await message.reply_text("Reply To A Message To Delete It")
+        return
+    try:
+        from_user_id = message.from_user.id
+        chat_id = message.chat.id
+        #permissions = await member_permissions(chat_id, from_user_id)
+        #if "can_delete_messages" in permissions or from_user_id in SUDOERS:
+        app.block_user( from_user_id)
+        #await message.reply_to_message.delete()
+        await message.delete()
+        #else:
+            #await message.reply_text("You Don't Have Enough Permissions,"
+                                     #+ " Consider Deleting Yourself!")
+    except Exception as e:
+        await message.reply_text(str(e))
+  #--------------------------------------------#       
+         #---------------#
+ @app.on_message(filters.command("unblock") & filters.user(SUDOERS))
+
+async def delete(_, message):
+    if not message.reply_to_message:
+        await message.reply_text("Reply To A Message To Delete It")
+        return
+    try:
+        from_user_id = message.from_user.id
+        chat_id = message.chat.id
+        #permissions = await member_permissions(chat_id, from_user_id)
+        #if "can_delete_messages" in permissions or from_user_id in SUDOERS:
+        app.unblock_user( from_user_id)
+        #await message.reply_to_message.delete()
+        await message.delete()
+        #else:
+            #await message.reply_text("You Don't Have Enough Permissions,"
+                                     #+ " Consider Deleting Yourself!")
+    except Exception as e:
+        await message.reply_text(str(e))
+  #--------------------------------------------#                
+         
+         
+         
 print(
     "\nBot Starting..."
 )
