@@ -517,7 +517,7 @@ async def delete(_, message):
     except Exception as e:
         await message.reply_text(str(e))
   #--------------------------------------------#
-         @app.on_message(filters.command("cats") & ~filters.edited)
+@app.on_message(filters.command("cats") & ~filters.edited)
 #@capture_err
 async def cat(_, message):
     with urllib.request.urlopen(
