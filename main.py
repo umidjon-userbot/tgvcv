@@ -393,7 +393,7 @@ async def ytplay(requested_by, query):
     global playing
     ydl_opts = {"format": "bestaudio"}
     m = await send(f"__**Searching for {query} on YouTube.**__")
-    await send(m)     
+    #await send(m)     
     try:
         results = await arq.youtube(query)
         link = f"https://youtube.com{results[0].url_suffix}"
@@ -439,11 +439,11 @@ async def ytplay(requested_by, query):
     os.rename(audio_file, "audio.webm")
     transcode("audio.webm")
     await m.delete()
-    msg_id = m.id   
+    msg_id = m.message_id   
     caption = f"🏷 **Name:** [{title[:35]}]({link})\n⏳ **Duration:** {duration}\n" \
                + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** YouTube"
     await app.set_profile_photo(photo="final.png")
-    #await app.pin_chat_message(SUDO_CHAT_ID, msg_id, disable_notification=True)      
+    await app.pin_chat_message(SUDO_CHAT_ID, msg_id, disable_notification=True)      
     m = await app.send_photo(
         chat_id=SUDO_CHAT_ID,
         caption=caption,
