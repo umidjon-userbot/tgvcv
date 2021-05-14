@@ -548,7 +548,7 @@ async def delete(_, message):
         chat_id = message.chat.id
         #permissions = await member_permissions(chat_id, from_user_id)
         #if "can_delete_messages" in permissions or from_user_id in SUDOERS:
-        app.block_user( from_user_id)
+        await app.block_user( from_user_id)
         #await message.reply_to_message.delete()
         await message.delete()
         #else:
@@ -569,7 +569,7 @@ async def delete(_, message):
         chat_id = message.chat.id
         #permissions = await member_permissions(chat_id, from_user_id)
         #if "can_delete_messages" in permissions or from_user_id in SUDOERS:
-        app.unblock_user( from_user_id)
+        await app.unblock_user( from_user_id)
         #await message.reply_to_message.delete()
         await message.delete()
         #else:
