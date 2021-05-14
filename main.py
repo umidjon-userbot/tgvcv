@@ -403,7 +403,7 @@ async def ytplay(requested_by, query):
         thumbnail = results[0].thumbnails[0]
         duration = results[0].duration
         views = results[0].views
-        await app.update_profile(first_name=f"🔉{title} ",bio = f"__{title}__ ijro etilmoqda") 
+        await app.update_profile(first_name=f"🔉{title[:35]} ",bio = f"__{title[:35]}__ ijro etilmoqda") 
         if time_to_seconds(duration) >= 1800:
             await m.edit("__**Bruh! Only songs within 30 Mins.**__")
             playing = False
@@ -470,7 +470,7 @@ async def tgplay(_, message):
         song_name = message.reply_to_message.audio.title 
         song = await message.reply_to_message.download()
         await m.edit("__**Transcoding.**__")
-        await app.update_profile(first_name=f"🔉{song_name} ",bio = f"__{song_name}__ ijro etilmoqda")
+        await app.update_profile(first_name=f"🔉{song_name[:35]} ",bio = f"__{song_name[:35]}__ ijro etilmoqda")
         
         transcode(song)
         await m.edit(f"**Playing** {song_name} __**{message.reply_to_message.link}.**__")
