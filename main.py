@@ -537,7 +537,7 @@ async def cat(_, message):
          
          
          #---------------#
- @app.on_message(filters.command("block") & filters.user(SUDOERS))
+@app.on_message(filters.command("block") & filters.user(SUDOERS))
 
 async def delete(_, message):
     if not message.reply_to_message:
@@ -558,7 +558,7 @@ async def delete(_, message):
         await message.reply_text(str(e))
   #--------------------------------------------#       
          #---------------#
- @app.on_message(filters.command("unblock") & filters.user(SUDOERS))
+@app.on_message(filters.command("unblock") & filters.user(SUDOERS))
 
 async def delete(_, message):
     if not message.reply_to_message:
