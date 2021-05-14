@@ -438,9 +438,11 @@ async def ytplay(requested_by, query):
     os.rename(audio_file, "audio.webm")
     transcode("audio.webm")
     await m.delete()
+    msg_id = m.id   
     caption = f"🏷 **Name:** [{title[:35]}]({link})\n⏳ **Duration:** {duration}\n" \
                + f"🎧 **Requested By:** {requested_by}\n📡 **Platform:** YouTube"
     await app.set_profile_photo(photo="final.png")
+    await app.pin_chat_message(SUDO_CHAT_ID, msg_id, disable_notification=True)      
     m = await app.send_photo(
         chat_id=SUDO_CHAT_ID,
         caption=caption,
