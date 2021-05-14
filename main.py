@@ -516,7 +516,16 @@ async def delete(_, message):
                                      #+ " Consider Deleting Yourself!")
     except Exception as e:
         await message.reply_text(str(e))
-         
+  #--------------------------------------------#
+         @app.on_message(filters.command("cats") & ~filters.edited)
+#@capture_err
+async def cat(_, message):
+    with urllib.request.urlopen(
+            "https://api.thecatapi.com/v1/images/search"
+    ) as url:
+        data = json.loads(url.read().decode())
+    cat_url = (data[0]['url'])
+    await message.reply_photo(cat_url)
 print(
     "\nBot Starting..."
 )
