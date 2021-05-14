@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import os
 import re
+from langdetect import detect
 from langdetect import detect_langs
 from langdetect import DetectorFactory
 from wordfilter import Wordfilter
