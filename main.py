@@ -69,7 +69,7 @@ vc = GroupCall(
 )
 
 # Arq Client
-arq = ARQ(ARQ_API)
+arq = ARQ(ARQ_API,"YCLZTK-LIFRNJ-VZNBYY-ISCQAN-ARQ")
 
 
 async def delete(message):
@@ -396,7 +396,7 @@ async def ytplay(requested_by, query):
     m = await send(f"__**Searching for {query} on YouTube.**__")
     #await send(m)     
     try:
-        results = await arq.youtube(query,XAPIKEY)
+        results = await arq.youtube(query)
         link = f"https://youtube.com{results[0].url_suffix}"
         title = results[0].title
         songname = title.lower()
