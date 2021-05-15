@@ -391,12 +391,12 @@ async def jiosaavn(requested_by, query):
 
 async def ytplay(requested_by, query):
     global playing
-    X-API-KEY = "YCLZTK-LIFRNJ-VZNBYY-ISCQAN-ARQ"     
+    XAPIKEY = "YCLZTK-LIFRNJ-VZNBYY-ISCQAN-ARQ"     
     ydl_opts = {"format": "bestaudio"}
     m = await send(f"__**Searching for {query} on YouTube.**__")
     #await send(m)     
     try:
-        results = await arq.youtube(query,X-API-KEY)
+        results = await arq.youtube(query,XAPIKEY)
         link = f"https://youtube.com{results[0].url_suffix}"
         title = results[0].title
         songname = title.lower()
